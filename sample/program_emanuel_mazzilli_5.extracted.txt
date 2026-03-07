@@ -1,0 +1,216 @@
+pages: 8
+
+--- PAGE 1 ---
+Scheda A
+Sett.1 3x6 kg kg kg Sett.1 4x6-8 kg kg kg kg Sett.1 4x10-12 kg kg kg kg Sett.1 3x8-10 kg kg kg ATLETA: EMANUEL MAZZILLI
+CHEST PRESS
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 3x5 3x4 3x6 3x5 3x4 kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg SPINTE PANCA 30° MANUBRI
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 4x6-8 4x6-8 4x6-8 4x6-8 4x6-8 kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg CHEST FLY MACHINE
+NOTE:ULTIMO SET REST PAUSE X2
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 4x10-12 4x10-12 4x10-12 4x10-12 4x10-12 kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg HYPEREXTENSION
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg Sett.7 3x6 kg
+kg
+kg
+Sett.7 4x6-8 kg
+kg
+kg
+kg
+Sett.7 4x10-12 kg
+kg
+kg
+kg
+Sett.7 3x8-10 kg
+kg
+kg
+TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 RIP.(SEC)
+120
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+
+--- PAGE 2 ---
+Sett.1 4x12 kg kg kg kg Sett.1 4x6-8 kg kg kg kg Sett.1 3x12 kg kg kg Scheda B
+Sett.1 3x6 kg kg kg PULLOVER CON MANUBRIO
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 4x12 4x12 4x12 4x12 4x12 4x12 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+PUSH DOWN CON BARRA
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 4x6-8 4x6-8 4x6-8 4x6-8 4x6-8 4x6-8 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+FRENCH PRESS CON CORDA DIETRO LA TESTA AL CAVO ALTO
+NOTE: ULTIMO SET REST PAUSE X2
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x11 3x10 3x12 3x11 3x10 3x12 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+LAT MACHINE PRESA MEDIA PRONA
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x5 3x4 3x6 3x5 3x4 3x6 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SE
+C)
+90
+RIP.(SEC)
+120
+
+--- PAGE 3 ---
+Sett.1 3X6-8 kg kg kg Sett.1 3x10-12 kg kg kg Sett.1 3x10-12 kg kg kg Sett.1 4x12-15 kg kg kg kg Sett.2 3X6-8 kg kg kg Sett.2 3x10-12 kg kg kg Sett.2 3x10-12 kg kg kg Sett.2 4x12-15 kg kg kg kg LAT MACHINE CON TRIANGOLO
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3X6-8 3X6-8 3X6-8 3X6-8 3X6-8 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+PULLEY
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+LEG CURL
+NOTE:ULTIMO SET REST PAUSE X2
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+ALZATE LATERALI IN PIEDI MANUBRI
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 4x12-15 4x12-15 4x12-15 4x12-15 4x12-15 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+
+--- PAGE 4 ---
+Sett.1 4X6-8 kg kg kg kg Sett.1 3x12 kg kg kg Scheda C
+Sett.1 3x6 kg kg kg Sett.1 3x10-12 kg kg kg Sett.2 4X6-8 kg kg kg kg Sett.2 3x11 kg kg kg Sett.2 3x5 kg kg kg Sett.2 3x10-12 kg kg kg CURL MANUBRI ALTERATI IN PIEDI
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 4X6-8 4X6-8 4X6-8 4X6-8 4X6-8 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+CURL MANUBRI PANCA 60°
+NOTE:ULTIMO SET REST PAUSE X2
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x10 3x12 3x11 3x10 3x12 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+LEG PRESS 45°
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x4 3x6 3x5 3x4 3x6 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+LEG EXTENSION
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+120
+RIP.(SEC)
+90
+
+--- PAGE 5 ---
+Sett.1 4x6-8 kg kg kg kg Sett.1 3x12-15 kg kg kg Sett.1 3X10-12 kg kg kg Sett.1 3x10-12 kg kg kg SPINTE PANCA PIANA MANUBRI
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 4x6-8 4x6-8 4x6-8 4x6-8 4x6-8 4x6-8 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+CROCI AI CAVI ALTI IN PIEDI
+NOTE: REST PAUSE X2 ULTIMO SET
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x12-15 3x12-15 3x12-15 3x12-15 3x12-15 3x12-15 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+ALZATE LATERALI SINGOLE SU PANCA 30° CON MANUBRIO
+NOTE: REST PAUSE X2 ULTIMO SET
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3X10-12 3X10-12 3X10-12 3X10-12 3X10-12 3X10-12 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+LEG CURL SEDUTO
+Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 2-1-1-1 kg kg kg kg kg kg
+kg kg kg kg kg kg
+kg kg kg kg kg kg
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+
+--- PAGE 6 ---
+HYPEREXTENSION PIEDI PARALLELI CON SOVRACCARICO
+Sett.1 Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 2-1-1-1 kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+SCHEDA D
+SHOULDER PRESS
+Sett.1 Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x6 3x5 3x4 3x6 3x5 3x4 3x6 2-1-1-1 kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+ALZATE LATERALI IN PIEDI CON MANUBRI
+Sett.1 Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 2-1-1-1 kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+ALZATE LATERALI SINGOLE AL CAVO BASSO
+NOTE:REST PAUSE X2 ULTIMO SET
+Sett.1 Sett.2 Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 TUT 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 3x8-10 2-1-1-1 kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+kg kg kg kg kg kg kg
+RIP.(SEC)
+90
+RIP.(SEC)
+120
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+
+--- PAGE 7 ---
+Sett.1 4x6-8 kg kg kg kg Sett.1 3x10-12 Kg kg kg Sett.1 3x12-15 kg kg kg Sett.1 5x8-10 kg kg kg kg kg Sett.2 4x6-8 kg kg kg kg Sett.2 3x10-12 kg kg kg Sett.2 3x12-15 kg kg kg Sett.2 5x8-10 kg kg kg kg kg PULLEY
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 4x6-8 4x6-8 4x6-8 4x6-8 4x6-8 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+LAT MACHINE PRESA NEUTRA
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x10-12 3x10-12 3x10-12 3x10-12 3x10-12 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+APERTURE POSTERIORI AI CAVI ICROCIATI
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 3x12-15 3x12-15 3x12-15 3x12-15 3x12-15 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+CURL AL CAVO BASSO
+Sett.3 Sett.4 Sett.5 Sett.6 Sett.7 5x8-10 5x8-10 5x8-10 5x8-10 5x8-10 kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+kg kg kg kg kg
+TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 TUT 2-1-1-1 RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+RIP.(SEC)
+90
+
+--- PAGE 8 ---
+Sett.1 5x8-10 kg kg kg kg kg Sett.2 5x8-10 kg kg kg kg kg Sett.3 5x8-10 kg kg kg kg kg PUSH DOWN CON CORDA
+Sett.4 Sett.5 Sett.6 5x8-10 5x8-10 5x8-10 kg kg kg kg kg kg kg kg kg kg kg kg kg kg kg Sett.7 5x8-10 kg
+kg
+kg
+kg
+kg
+TUT 2-1-1-1 RIP.(SEC)
+90

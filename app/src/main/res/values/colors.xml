@@ -1,0 +1,27 @@
+<resources>
+    <color name="primary">#1B5E20</color>
+    <color name="primary_dark">#003300</color>
+    <color name="accent">#81C784</color>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="text_primary">#111111</color>
+    <color name="chip_text">#111111</color>
+    <color name="launcher_background">#1B5E20</color>
+    <color name="intensity_rest_pause">#EF6C00</color>
+    <color name="intensity_rest_pause_light">#FFE6CC</color>
+    <color name="intensity_rest_pause_dark">#A34A00</color>
+    <color name="intensity_stripping">#C62828</color>
+    <color name="status_done">#2E7D32</color>
+    <color name="status_skipped">#6D4C41</color>
+    <color name="status_ongoing">#F9A825</color>
+    <color name="status_pending">#ECEFF1</color>
+    <color name="card_stroke_default">#90A4AE</color>
+    <color name="card_surface">#FFFFFF</color>
+    <color name="import_card_surface">#F4FAF6</color>
+    <color name="card_bg_done">#E8F5E9</color>
+    <color name="card_bg_in_progress">#FFF8E1</color>
+    <color name="card_bg_not_started">#EEF3F5</color>
+    <color name="training_header_surface">#EAF6EC</color>
+    <color name="screen_grad_start">#FCFFFD</color>
+    <color name="screen_grad_end">#ECF7EF</color>
+</resources>
