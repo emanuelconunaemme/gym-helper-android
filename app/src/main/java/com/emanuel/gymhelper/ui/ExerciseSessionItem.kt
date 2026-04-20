@@ -11,5 +11,6 @@ data class ExerciseSessionItem(
     val isOngoing: Boolean,
     val currentWeight: String?,
     val timerRemainingSeconds: Int?,
-    val expanded: Boolean
+    val expanded: Boolean,
+    val showCompletedDivider: Boolean
 )

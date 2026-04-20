@@ -13,6 +13,7 @@ import com.emanuel.gymhelper.data.local.room.entity.ExerciseProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.ExerciseTypeEntity
 import com.emanuel.gymhelper.data.local.room.entity.ExerciseWeekEntity
 import com.emanuel.gymhelper.data.local.room.entity.ExerciseWeekSetEntity
+import com.emanuel.gymhelper.data.local.room.entity.HiitProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.ProgramEntity
 import com.emanuel.gymhelper.data.local.room.entity.ProgramProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.SetProgressEntity
@@ -30,9 +31,10 @@ import com.emanuel.gymhelper.data.local.room.entity.TrainingProgressEntity
         ProgramProgressEntity::class,
         TrainingProgressEntity::class,
         ExerciseProgressEntity::class,
-        SetProgressEntity::class
+        SetProgressEntity::class,
+        HiitProgressEntity::class
     ],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(RoomConverters::class)
@@ -42,6 +44,35 @@ abstract class GymHelperDatabase : RoomDatabase() {
     abstract fun workoutProgressDao(): WorkoutProgressDao
 
     companion object {
+        val MIGRATION_2_3: Migration = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    CREATE TABLE IF NOT EXISTS `hiit_progress` (
+                        `hiitProgressId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                        `programId` INTEGER NOT NULL,
+                        `weekNumber` INTEGER NOT NULL,
+                        `completedCycles` INTEGER NOT NULL,
+                        `updatedAtEpochMs` INTEGER NOT NULL,
+                        FOREIGN KEY(`programId`) REFERENCES `programs`(`programId`) ON UPDATE NO ACTION ON DELETE CASCADE
+                    )
+                    """.trimIndent()
+                )
+                db.execSQL(
+                    """
+                    CREATE INDEX IF NOT EXISTS `index_hiit_progress_programId`
+                    ON `hiit_progress` (`programId`)
+                    """.trimIndent()
+                )
+                db.execSQL(
+                    """
+                    CREATE UNIQUE INDEX IF NOT EXISTS `index_hiit_progress_programId_weekNumber`
+                    ON `hiit_progress` (`programId`, `weekNumber`)
+                    """.trimIndent()
+                )
+            }
+        }
+
         val MIGRATION_1_2: Migration = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
                 db.execSQL(

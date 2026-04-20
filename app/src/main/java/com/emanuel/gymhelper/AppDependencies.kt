@@ -19,6 +19,7 @@ object AppDependencies {
                 DATABASE_NAME
             )
                 .addMigrations(GymHelperDatabase.MIGRATION_1_2)
+                .addMigrations(GymHelperDatabase.MIGRATION_2_3)
                 .build()
                 .also { database = it }
         }

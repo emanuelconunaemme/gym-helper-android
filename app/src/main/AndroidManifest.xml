@@ -3,6 +3,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <package android:name="com.whoop.android" />
+        <package android:name="com.citysportsfitness.android" />
+    </queries>
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +17,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GymHelper">
+        <activity
+            android:name=".HiitActivity"
+            android:exported="false" />
         <activity
             android:name=".TrainingDetailActivity"
             android:exported="false" />

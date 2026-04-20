@@ -3,6 +3,7 @@ package com.emanuel.gymhelper.data.tracker
 import androidx.room.withTransaction
 import com.emanuel.gymhelper.data.local.room.GymHelperDatabase
 import com.emanuel.gymhelper.data.local.room.entity.ExerciseProgressEntity
+import com.emanuel.gymhelper.data.local.room.entity.HiitProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.ProgramProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.SetProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.TrainingProgressEntity
@@ -22,14 +23,18 @@ class WorkoutTrackerRepository(
 
     suspend fun loadProgramState(): ProgramTrackerState? {
         val program = programDao.getLatestProgram()?.sortedDeep() ?: return null
-        val progress = ensureProgramProgress(program.program.programId, program.program.numberOfWeeks)
+        val progress = ensureProgramProgress(
+            programId = program.program.programId,
+            numberOfWeeks = totalWeeksWithUnload(program.program.numberOfWeeks)
+        )
         val summary = getWeekSummary(program.program.programId, progress.currentWeek)
         return ProgramTrackerState(program, progress, summary)
     }
 
     suspend fun updateProgramWeek(programId: Long, numberOfWeeks: Int, requestedWeek: Int): Int {
-        val progress = ensureProgramProgress(programId, numberOfWeeks)
-        val clampedWeek = requestedWeek.coerceIn(1, numberOfWeeks.coerceAtLeast(1))
+        val effectiveWeeks = totalWeeksWithUnload(numberOfWeeks)
+        val progress = ensureProgramProgress(programId, effectiveWeeks)
+        val clampedWeek = requestedWeek.coerceIn(1, effectiveWeeks)
         progressDao.updateProgramWeek(progress.programProgressId, clampedWeek, now())
         return clampedWeek
     }
@@ -37,11 +42,19 @@ class WorkoutTrackerRepository(
     suspend fun loadTrainingState(
         programId: Long,
         training: TrainingWithExercises,
-        weekNumber: Int
+        weekNumber: Int,
+        programNumberOfWeeks: Int
     ): TrainingTrackerState {
         return database.withTransaction {
+            val unloadWeekNumber = totalWeeksWithUnload(programNumberOfWeeks)
+            val isUnloadWeek = weekNumber == unloadWeekNumber
             val trainingProgress = ensureTrainingProgress(programId, training.training.trainingId, weekNumber)
-            ensureExerciseProgress(trainingProgress.trainingProgressId, training, weekNumber)
+            ensureExerciseProgress(
+                trainingProgressId = trainingProgress.trainingProgressId,
+                training = training,
+                weekNumber = weekNumber,
+                unloadWeekNumber = unloadWeekNumber
+            )
 
             val exerciseProgressByExerciseId = progressDao
                 .getExerciseProgressForTraining(trainingProgress.trainingProgressId)
@@ -50,17 +63,37 @@ class WorkoutTrackerRepository(
             val exerciseStates = training.exercises.mapNotNull { exercise ->
                 val progress = exerciseProgressByExerciseId[exercise.exercise.exerciseId] ?: return@mapNotNull null
                 val sets = progressDao.getSetProgressForExercise(progress.exerciseProgressId)
-                val weekPlan = exercise.weeks.firstOrNull { it.week.weekNumber == weekNumber }
-                val lastWeight = progressDao.getLastWeightForExercise(
-                    exerciseId = exercise.exercise.exerciseId,
-                    excludeExerciseProgressId = progress.exerciseProgressId
+                val weekPlan = resolveWeekPlanForWeek(
+                    exercise = exercise,
+                    weekNumber = weekNumber,
+                    unloadWeekNumber = unloadWeekNumber
                 )
+                val lastWeight = if (isUnloadWeek) {
+                    progressDao.getWeightForExerciseAtWeek(
+                        exerciseId = exercise.exercise.exerciseId,
+                        weekNumber = FIRST_WEEK_NUMBER
+                    ) ?: progressDao.getLastWeightForExercise(
+                        exerciseId = exercise.exercise.exerciseId,
+                        excludeExerciseProgressId = progress.exerciseProgressId
+                    )
+                } else {
+                    progressDao.getLastWeightForExercise(
+                        exerciseId = exercise.exercise.exerciseId,
+                        excludeExerciseProgressId = progress.exerciseProgressId
+                    )
+                }
                 ExerciseTrackerState(
                     exercise = exercise,
                     weekPlan = weekPlan,
                     progress = progress,
                     setProgress = sets,
-                    lastSessionWeightText = lastWeight
+                    lastSessionWeightText = lastWeight,
+                    effectiveIntensityType = if (isUnloadWeek) {
+                        IntensityType.NONE
+                    } else {
+                        exercise.exercise.intensityType
+                    },
+                    effectiveRestSeconds = exercise.exercise.restSeconds
                 )
             }
 
@@ -112,6 +145,35 @@ class WorkoutTrackerRepository(
         val doneTrainings = progressDao.countTrainingsByStatus(programId, weekNumber, ProgressStatus.DONE)
         val skippedTrainings = progressDao.countTrainingsByStatus(programId, weekNumber, ProgressStatus.SKIPPED)
         return WeekSummary(doneExercises, skippedExercises, doneTrainings, skippedTrainings)
+    }
+
+    suspend fun getHiitProgress(programId: Long, weekNumber: Int): HiitProgressEntity {
+        val existing = progressDao.getHiitProgress(programId, weekNumber)
+        if (existing != null) return existing
+
+        val now = now()
+        val id = progressDao.insertHiitProgress(
+            HiitProgressEntity(
+                programId = programId,
+                weekNumber = weekNumber,
+                updatedAtEpochMs = now
+            )
+        )
+        return HiitProgressEntity(
+            hiitProgressId = id,
+            programId = programId,
+            weekNumber = weekNumber,
+            updatedAtEpochMs = now
+        )
+    }
+
+    suspend fun updateHiitCompletedCycles(programId: Long, weekNumber: Int, completedCycles: Int) {
+        val progress = getHiitProgress(programId, weekNumber)
+        progressDao.updateHiitProgress(
+            hiitProgressId = progress.hiitProgressId,
+            completedCycles = completedCycles.coerceIn(0, HIIT_TOTAL_CYCLES),
+            updatedAtEpochMs = now()
+        )
     }
 
     private suspend fun ensureProgramProgress(programId: Long, numberOfWeeks: Int): ProgramProgressEntity {
@@ -167,7 +229,8 @@ class WorkoutTrackerRepository(
     private suspend fun ensureExerciseProgress(
         trainingProgressId: Long,
         training: TrainingWithExercises,
-        weekNumber: Int
+        weekNumber: Int,
+        unloadWeekNumber: Int
     ) {
         val existingByExerciseId = progressDao
             .getExerciseProgressForTraining(trainingProgressId)
@@ -175,10 +238,17 @@ class WorkoutTrackerRepository(
 
         training.exercises.forEach { exercise ->
             val exerciseId = exercise.exercise.exerciseId
-            val weekPlan = exercise.weeks.firstOrNull { it.week.weekNumber == weekNumber }
+            val weekPlan = resolveWeekPlanForWeek(
+                exercise = exercise,
+                weekNumber = weekNumber,
+                unloadWeekNumber = unloadWeekNumber
+            )
             val basePlannedSets = weekPlan?.setRepetitions?.sumOf { it.setCount } ?: 0
+            val isUnloadWeek = weekNumber == unloadWeekNumber
             val restPauseBonusSets = if (
-                basePlannedSets > 0 && exercise.exercise.intensityType == IntensityType.REST_PAUSE_2X
+                !isUnloadWeek &&
+                basePlannedSets > 0 &&
+                exercise.exercise.intensityType == IntensityType.REST_PAUSE_2X
             ) {
                 2
             } else {
@@ -330,7 +400,51 @@ class WorkoutTrackerRepository(
         )
     }
 
+    private fun resolveWeekPlanForWeek(
+        exercise: ExerciseWithDetails,
+        weekNumber: Int,
+        unloadWeekNumber: Int
+    ): ExerciseWeekWithSets? {
+        return if (weekNumber == unloadWeekNumber) {
+            buildUnloadWeekPlan(exercise, weekNumber)
+        } else {
+            exercise.weeks.firstOrNull { it.week.weekNumber == weekNumber }
+        }
+    }
+
+    private fun buildUnloadWeekPlan(
+        exercise: ExerciseWithDetails,
+        unloadWeekNumber: Int
+    ): ExerciseWeekWithSets? {
+        val source = exercise.weeks.firstOrNull { it.week.weekNumber == FIRST_WEEK_NUMBER } ?: return null
+        val sortedSets = source.setRepetitions.sortedBy { it.sortOrder }
+        val totalSets = sortedSets.sumOf { it.setCount }
+        val targetTotalSets = (totalSets - 1).coerceAtLeast(0)
+        var remaining = targetTotalSets
+        val adjustedSets = sortedSets.mapNotNull { original ->
+            if (remaining <= 0) return@mapNotNull null
+            val allocated = original.setCount.coerceAtMost(remaining)
+            remaining -= allocated
+            original.copy(setCount = allocated)
+        }
+
+        return source.copy(
+            week = source.week.copy(weekNumber = unloadWeekNumber),
+            setRepetitions = adjustedSets
+        )
+    }
+
+    private fun totalWeeksWithUnload(numberOfWeeks: Int): Int {
+        return numberOfWeeks.coerceAtLeast(1) + UNLOAD_EXTRA_WEEK
+    }
+
     private fun now(): Long = System.currentTimeMillis()
+
+    companion object {
+        private const val HIIT_TOTAL_CYCLES = 4
+        private const val UNLOAD_EXTRA_WEEK = 1
+        private const val FIRST_WEEK_NUMBER = 1
+    }
 }
 
 data class ProgramTrackerState(
@@ -349,7 +463,9 @@ data class ExerciseTrackerState(
     val weekPlan: ExerciseWeekWithSets?,
     val progress: ExerciseProgressEntity,
     val setProgress: List<SetProgressEntity>,
-    val lastSessionWeightText: String?
+    val lastSessionWeightText: String?,
+    val effectiveIntensityType: IntensityType,
+    val effectiveRestSeconds: Int
 )
 
 data class WeekSummary(

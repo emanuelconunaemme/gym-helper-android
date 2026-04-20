@@ -15,9 +15,11 @@ class TrainingMenuAdapter(
 ) : RecyclerView.Adapter<TrainingMenuAdapter.ViewHolder>() {
 
     private var items: List<TrainingMenuItem> = emptyList()
+    private var lastAnimatedPosition = -1
 
     fun submitItems(newItems: List<TrainingMenuItem>) {
         items = newItems
+        lastAnimatedPosition = -1
         notifyDataSetChanged()
     }
 
@@ -29,6 +31,16 @@ class TrainingMenuAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+        if (position > lastAnimatedPosition) {
+            holder.itemView.alpha = 0f
+            holder.itemView.translationY = 18f
+            holder.itemView.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(180L)
+                .start()
+            lastAnimatedPosition = position
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -39,6 +51,7 @@ class TrainingMenuAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val card = itemView.findViewById<MaterialCardView>(R.id.trainingCard)
+        private val stateStripe = itemView.findViewById<View>(R.id.trainingStateStripe)
         private val titleText = itemView.findViewById<TextView>(R.id.trainingTitleText)
         private val summaryText = itemView.findViewById<TextView>(R.id.trainingSummaryText)
         private val statusBadge = itemView.findViewById<TextView>(R.id.trainingStatusBadge)
@@ -65,6 +78,9 @@ class TrainingMenuAdapter(
                     statusBadge.backgroundTintList =
                         ContextCompat.getColorStateList(context, R.color.status_done)
                     card.strokeColor = ContextCompat.getColor(context, R.color.status_done)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.status_done)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_done)
                     )
@@ -76,6 +92,9 @@ class TrainingMenuAdapter(
                     statusBadge.backgroundTintList =
                         ContextCompat.getColorStateList(context, R.color.status_skipped)
                     card.strokeColor = ContextCompat.getColor(context, R.color.status_skipped)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.status_skipped)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_not_started)
                     )
@@ -87,6 +106,9 @@ class TrainingMenuAdapter(
                     statusBadge.backgroundTintList =
                         ContextCompat.getColorStateList(context, R.color.status_ongoing)
                     card.strokeColor = ContextCompat.getColor(context, R.color.status_ongoing)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.status_ongoing)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_in_progress)
                     )
@@ -94,6 +116,9 @@ class TrainingMenuAdapter(
                 else -> {
                     statusBadge.visibility = View.INVISIBLE
                     card.strokeColor = ContextCompat.getColor(context, R.color.card_stroke_default)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.card_stroke_default)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_not_started)
                     )

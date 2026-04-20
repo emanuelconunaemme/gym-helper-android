@@ -40,6 +40,9 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     private var sessionItems: List<ExerciseSessionItem> = emptyList()
 
     private var expandedExerciseProgressId: Long? = null
+    private var showRemainingSetCount = false
+    private var totalSetsForHeader = 0
+    private var resolvedSetsForHeader = 0
 
     private var activeTimer: CountDownTimer? = null
     private var activeTimerExerciseProgressId: Long? = null
@@ -74,6 +77,10 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
 
     private fun setupUi() {
         binding.detailToolbar.setNavigationOnClickListener { finish() }
+        binding.trainingProgressContainer.setOnClickListener {
+            showRemainingSetCount = !showRemainingSetCount
+            renderTrainingProgressHeader()
+        }
 
         binding.exerciseRecyclerView.apply {
             layoutManager = LinearLayoutManager(this@TrainingDetailActivity)
@@ -92,7 +99,8 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
             val trainingState = trackerRepository.loadTrainingState(
                 programId = programState.program.program.programId,
                 training = training,
-                weekNumber = weekNumber
+                weekNumber = weekNumber,
+                programNumberOfWeeks = programState.program.program.numberOfWeeks
             )
 
             LoadedTrainingState(
@@ -117,30 +125,61 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
         binding.trainingTitleText.text = loaded.trainingName
 
         val visibleExercises = loaded.trainingState.exerciseStates.filter { it.weekPlan != null }
-        val totalSets = visibleExercises.sumOf { it.progress.plannedSets }
-        val resolvedSets = visibleExercises.sumOf { it.progress.completedSets + it.progress.skippedSets }
-        val progressPercent = if (totalSets <= 0) {
-            0
-        } else {
-            ((resolvedSets * 100f) / totalSets).toInt()
+        totalSetsForHeader = visibleExercises.sumOf { it.progress.plannedSets }
+        resolvedSetsForHeader = visibleExercises.sumOf {
+            it.progress.completedSets + it.progress.skippedSets
         }
-        binding.trainingProgressCircle.progress = progressPercent
-        binding.trainingProgressPercentText.text = getString(
-            R.string.progress_percent_template,
-            progressPercent
-        )
+        renderTrainingProgressHeader()
 
         renderSessionItems()
         return true
+    }
+
+    private fun renderTrainingProgressHeader() {
+        val progressPercent = if (totalSetsForHeader <= 0) {
+            0
+        } else {
+            ((resolvedSetsForHeader * 100f) / totalSetsForHeader).toInt()
+        }
+        val remainingSets = (totalSetsForHeader - resolvedSetsForHeader).coerceAtLeast(0)
+
+        binding.trainingProgressCircle.setProgressCompat(progressPercent, true)
+        binding.trainingProgressPercentText.text = if (showRemainingSetCount) {
+            remainingSets.toString()
+        } else {
+            getString(R.string.progress_percent_template, progressPercent)
+        }
     }
 
     private fun renderSessionItems() {
         val trainingState = currentTrainingState ?: return
 
         val ongoingExerciseId = ongoingExerciseProgressId()
-        sessionItems = trainingState.exerciseStates
+        val visibleExerciseStates = trainingState.exerciseStates
             .filter { it.weekPlan != null }
-            .map { exerciseState ->
+        val unresolvedExercises = visibleExerciseStates.filter {
+            it.progress.status == ProgressStatus.PENDING
+        }
+        val currentExercise = unresolvedExercises.firstOrNull {
+            it.progress.exerciseProgressId == ongoingExerciseId
+        }
+        val unresolvedOrdered = buildList {
+            if (currentExercise != null) {
+                add(currentExercise)
+            }
+            addAll(
+                unresolvedExercises.filterNot {
+                    it.progress.exerciseProgressId == currentExercise?.progress?.exerciseProgressId
+                }
+            )
+        }
+        val completedOrdered = visibleExerciseStates.filter {
+            it.progress.status != ProgressStatus.PENDING
+        }
+        val orderedStates = unresolvedOrdered + completedOrdered
+        val firstCompletedExerciseId = completedOrdered.firstOrNull()?.progress?.exerciseProgressId
+
+        sessionItems = orderedStates.map { exerciseState ->
                 val progress = exerciseState.progress
                 val currentWeight = progress.weightText ?: exerciseState.lastSessionWeightText
                 ExerciseSessionItem(
@@ -152,7 +191,7 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
                         (progress.completedSets + progress.skippedSets).toString(),
                         progress.plannedSets.toString()
                     ),
-                    intensityType = exerciseState.exercise.exercise.intensityType.dbValue,
+                    intensityType = exerciseState.effectiveIntensityType.dbValue,
                     isDone = progress.status == ProgressStatus.DONE,
                     isSkipped = progress.status == ProgressStatus.SKIPPED,
                     isOngoing = progress.status == ProgressStatus.PENDING &&
@@ -163,7 +202,9 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
                     } else {
                         null
                     },
-                    expanded = expandedExerciseProgressId == progress.exerciseProgressId
+                    expanded = expandedExerciseProgressId == progress.exerciseProgressId,
+                    showCompletedDivider = progress.exerciseProgressId == firstCompletedExerciseId &&
+                        unresolvedOrdered.isNotEmpty()
                 )
             }
 
@@ -243,6 +284,13 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
 
             expandedExerciseProgressId = exerciseProgressId
             if (!refreshTrainingState()) return@launch
+
+            val hasPendingExercises = sessionItems.any { !it.isDone && !it.isSkipped }
+            if (action.exerciseFinished && !hasPendingExercises) {
+                expandedExerciseProgressId = null
+                renderSessionItems()
+                return@launch
+            }
 
             val moveToNextExercise: () -> Unit = {
                 if (action.exerciseFinished) {
@@ -377,8 +425,8 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     }
 
     private fun restSecondsAfterSet(exerciseState: ExerciseTrackerState, pendingSetIndex: Int): Int {
-        val normalRest = exerciseState.exercise.exercise.restSeconds.coerceAtLeast(0)
-        if (exerciseState.exercise.exercise.intensityType != IntensityType.REST_PAUSE_2X) {
+        val normalRest = exerciseState.effectiveRestSeconds.coerceAtLeast(0)
+        if (exerciseState.effectiveIntensityType != IntensityType.REST_PAUSE_2X) {
             return normalRest
         }
 

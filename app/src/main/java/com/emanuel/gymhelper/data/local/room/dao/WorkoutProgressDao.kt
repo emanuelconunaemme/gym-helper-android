@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.emanuel.gymhelper.data.local.room.entity.ExerciseProgressEntity
+import com.emanuel.gymhelper.data.local.room.entity.HiitProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.ProgramProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.SetProgressEntity
 import com.emanuel.gymhelper.data.local.room.entity.TrainingProgressEntity
@@ -175,6 +176,23 @@ interface WorkoutProgressDao {
 
     @Query(
         """
+        SELECT weightText
+        FROM exercise_progress
+        WHERE exerciseId = :exerciseId
+          AND weekNumber = :weekNumber
+          AND weightText IS NOT NULL
+          AND TRIM(weightText) != ''
+        ORDER BY COALESCE(completedAtEpochMs, 0) DESC, exerciseProgressId DESC
+        LIMIT 1
+        """
+    )
+    suspend fun getWeightForExerciseAtWeek(
+        exerciseId: Long,
+        weekNumber: Int
+    ): String?
+
+    @Query(
+        """
         SELECT COUNT(*)
         FROM exercise_progress ep
         INNER JOIN training_progress tp ON tp.trainingProgressId = ep.trainingProgressId
@@ -203,4 +221,31 @@ interface WorkoutProgressDao {
         weekNumber: Int,
         status: String
     ): Int
+
+    @Query(
+        """
+        SELECT * FROM hiit_progress
+        WHERE programId = :programId
+          AND weekNumber = :weekNumber
+        LIMIT 1
+        """
+    )
+    suspend fun getHiitProgress(programId: Long, weekNumber: Int): HiitProgressEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertHiitProgress(progress: HiitProgressEntity): Long
+
+    @Query(
+        """
+        UPDATE hiit_progress
+        SET completedCycles = :completedCycles,
+            updatedAtEpochMs = :updatedAtEpochMs
+        WHERE hiitProgressId = :hiitProgressId
+        """
+    )
+    suspend fun updateHiitProgress(
+        hiitProgressId: Long,
+        completedCycles: Int,
+        updatedAtEpochMs: Long
+    )
 }

@@ -3,8 +3,10 @@ package com.emanuel.gymhelper.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.emanuel.gymhelper.R
 import com.google.android.material.card.MaterialCardView
@@ -22,6 +24,7 @@ class ExerciseSessionAdapter(
     }
 
     private var items: List<ExerciseSessionItem> = emptyList()
+    private var lastAnimatedPosition = -1
 
     fun submitItems(newItems: List<ExerciseSessionItem>) {
         items = newItems
@@ -36,6 +39,16 @@ class ExerciseSessionAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(items[position])
+        if (position > lastAnimatedPosition) {
+            holder.itemView.alpha = 0f
+            holder.itemView.translationY = 18f
+            holder.itemView.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(180L)
+                .start()
+            lastAnimatedPosition = position
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -46,6 +59,7 @@ class ExerciseSessionAdapter(
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val card = itemView.findViewById<MaterialCardView>(R.id.exerciseCard)
+        private val stateStripe = itemView.findViewById<View>(R.id.exerciseStateStripe)
         private val statusBadge = itemView.findViewById<TextView>(R.id.exerciseStatusBadge)
         private val nameText = itemView.findViewById<TextView>(R.id.exerciseNameText)
         private val setsRepsText = itemView.findViewById<TextView>(R.id.exerciseSetsRepsText)
@@ -56,10 +70,18 @@ class ExerciseSessionAdapter(
         private val weightValueText = itemView.findViewById<TextView>(R.id.weightValueText)
         private val finishButton = itemView.findViewById<MaterialButton>(R.id.finishButton)
         private val skipButton = itemView.findViewById<MaterialButton>(R.id.skipButton)
+        private val timerContainer = itemView.findViewById<MaterialCardView>(R.id.timerContainer)
         private val timerText = itemView.findViewById<TextView>(R.id.timerText)
 
         fun bind(item: ExerciseSessionItem) {
             val context = itemView.context
+            val layoutParams = card.layoutParams as MarginLayoutParams
+            layoutParams.topMargin = if (item.showCompletedDivider) {
+                (84 * context.resources.displayMetrics.density).toInt()
+            } else {
+                0
+            }
+            card.layoutParams = layoutParams
 
             nameText.text = item.name
             setsRepsText.text = item.setsReps
@@ -73,6 +95,9 @@ class ExerciseSessionAdapter(
                         ContextCompat.getColorStateList(context, R.color.status_done)
                     statusBadge.setTextColor(ContextCompat.getColor(context, R.color.white))
                     card.strokeColor = ContextCompat.getColor(context, R.color.status_done)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.status_done)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_done)
                     )
@@ -84,6 +109,9 @@ class ExerciseSessionAdapter(
                         ContextCompat.getColorStateList(context, R.color.status_skipped)
                     statusBadge.setTextColor(ContextCompat.getColor(context, R.color.white))
                     card.strokeColor = ContextCompat.getColor(context, R.color.status_skipped)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.status_skipped)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_not_started)
                     )
@@ -91,6 +119,9 @@ class ExerciseSessionAdapter(
                 item.isOngoing -> {
                     statusBadge.visibility = View.INVISIBLE
                     card.strokeColor = ContextCompat.getColor(context, R.color.status_ongoing)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.status_ongoing)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_in_progress)
                     )
@@ -98,6 +129,9 @@ class ExerciseSessionAdapter(
                 else -> {
                     statusBadge.visibility = View.INVISIBLE
                     card.strokeColor = ContextCompat.getColor(context, R.color.card_stroke_default)
+                    stateStripe.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.card_stroke_default)
+                    )
                     card.setCardBackgroundColor(
                         ContextCompat.getColor(context, R.color.card_bg_not_started)
                     )
@@ -126,12 +160,30 @@ class ExerciseSessionAdapter(
             } ?: context.getString(R.string.weight_empty)
 
             if (item.timerRemainingSeconds != null) {
-                val timerColor = if (item.timerRemainingSeconds <= 10) {
+                val warning = item.timerRemainingSeconds <= 10
+                val timerColor = if (warning) {
                     R.color.intensity_stripping
                 } else {
                     R.color.text_primary
                 }
                 val color = ContextCompat.getColor(context, timerColor)
+                timerContainer.isVisible = item.expanded
+                timerContainer.setCardBackgroundColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (warning) R.color.timer_bg_critical else R.color.timer_bg_default
+                    )
+                )
+                if (warning) {
+                    timerContainer.startAnimation(
+                        android.view.animation.AnimationUtils.loadAnimation(
+                            context,
+                            R.anim.pulse_soft
+                        )
+                    )
+                } else {
+                    timerContainer.clearAnimation()
+                }
 
                 if (item.expanded) {
                     timerCompactText.visibility = View.GONE
@@ -144,6 +196,10 @@ class ExerciseSessionAdapter(
                 } else {
                     timerText.visibility = View.GONE
                     timerCompactText.visibility = View.VISIBLE
+                    timerCompactText.backgroundTintList = ContextCompat.getColorStateList(
+                        context,
+                        if (warning) R.color.timer_bg_critical else R.color.status_pending
+                    )
                     timerCompactText.text = context.getString(
                         R.string.timer_inline_template,
                         item.timerRemainingSeconds.toString()
@@ -151,6 +207,8 @@ class ExerciseSessionAdapter(
                     timerCompactText.setTextColor(color)
                 }
             } else {
+                timerContainer.clearAnimation()
+                timerContainer.isVisible = false
                 timerText.visibility = View.GONE
                 timerCompactText.visibility = View.GONE
             }

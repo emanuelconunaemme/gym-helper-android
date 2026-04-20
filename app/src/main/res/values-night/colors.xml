@@ -22,6 +22,13 @@
     <color name="card_bg_in_progress">#37311E</color>
     <color name="card_bg_not_started">#1F272A</color>
     <color name="training_header_surface">#24312B</color>
+    <color name="timer_bg_default">#2A3335</color>
+    <color name="timer_bg_critical">#4A2628</color>
+    <color name="hiit_card_surface">#33271C</color>
+    <color name="hiit_card_stroke">#FB8C00</color>
+    <color name="hiit_run_bg">#5C4211</color>
+    <color name="hiit_recover_bg">#23402A</color>
+    <color name="hiit_idle_bg">#2D3633</color>
     <color name="screen_grad_start">#0F1412</color>
     <color name="screen_grad_end">#16201B</color>
 </resources>

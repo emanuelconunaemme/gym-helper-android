@@ -19,8 +19,6 @@ class ProgramJsonImporter(
         val dao = database.programDao()
 
         return database.withTransaction {
-            dao.deleteAllPrograms()
-
             val programId = dao.insertProgram(
                 ProgramEntity(
                     name = payload.program.name,
