@@ -126,6 +126,9 @@ class MainActivity : AppCompatActivity() {
         binding.hiitCard.setOnClickListener {
             openHiit()
         }
+        binding.stretchingCard.setOnClickListener {
+            openStretching()
+        }
         binding.loadNewWaveAction.setOnClickListener {
             showLoadNewWaveOptions()
             binding.mainDrawerLayout.closeDrawer(GravityCompat.START)
@@ -331,6 +334,10 @@ class MainActivity : AppCompatActivity() {
                 .putExtra(HiitActivity.EXTRA_PROGRAM_ID, programState.program.program.programId)
                 .putExtra(HiitActivity.EXTRA_WEEK_NUMBER, programState.programProgress.currentWeek)
         )
+    }
+
+    private fun openStretching() {
+        startActivity(Intent(this, StretchingActivity::class.java))
     }
 
     private fun showImportUi() {

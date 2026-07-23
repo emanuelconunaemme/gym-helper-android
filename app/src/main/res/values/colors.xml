@@ -29,6 +29,11 @@
     <color name="hiit_run_bg">#FFE082</color>
     <color name="hiit_recover_bg">#C8E6C9</color>
     <color name="hiit_idle_bg">#ECEFF1</color>
+    <color name="stretching_card_surface">#E8F5E9</color>
+    <color name="stretching_card_stroke">#43A047</color>
+    <color name="stretching_stretch_bg">#B2DFDB</color>
+    <color name="stretching_rest_bg">#E1BEE7</color>
+    <color name="stretching_idle_bg">#ECEFF1</color>
     <color name="screen_grad_start">#FCFFFD</color>
     <color name="screen_grad_end">#ECF7EF</color>
 </resources>
