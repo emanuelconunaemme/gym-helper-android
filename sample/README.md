@@ -26,7 +26,7 @@ This folder contains a sample JSON payload for importing a workout program.
               "youtube_video": "string|null",
               "notes": "string|null"
             },
-            "intensity_type": "none|rest_pause_2x|stripping_2x",
+            "intensity_type": "none|rest_pause_2x|stripping_2x|negativa_3s",
             "rest_seconds": 90,
             "weeks": [
               {

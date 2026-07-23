@@ -11,7 +11,8 @@ import com.emanuel.gymhelper.data.local.room.progress.ProgressStatus
 import com.google.android.material.card.MaterialCardView
 
 class TrainingMenuAdapter(
-    private val onTrainingClicked: (Long) -> Unit
+    private val onTrainingClicked: (Long) -> Unit,
+    private val onTrainingLongPressed: (Long) -> Unit
 ) : RecyclerView.Adapter<TrainingMenuAdapter.ViewHolder>() {
 
     private var items: List<TrainingMenuItem> = emptyList()
@@ -26,7 +27,7 @@ class TrainingMenuAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_training_menu, parent, false)
-        return ViewHolder(view, onTrainingClicked)
+        return ViewHolder(view, onTrainingClicked, onTrainingLongPressed)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -47,7 +48,8 @@ class TrainingMenuAdapter(
 
     class ViewHolder(
         itemView: View,
-        private val onTrainingClicked: (Long) -> Unit
+        private val onTrainingClicked: (Long) -> Unit,
+        private val onTrainingLongPressed: (Long) -> Unit
     ) : RecyclerView.ViewHolder(itemView) {
 
         private val card = itemView.findViewById<MaterialCardView>(R.id.trainingCard)
@@ -126,6 +128,10 @@ class TrainingMenuAdapter(
             }
 
             card.setOnClickListener { onTrainingClicked(item.trainingId) }
+            card.setOnLongClickListener {
+                onTrainingLongPressed(item.trainingProgressId)
+                true
+            }
         }
     }
 }

@@ -30,14 +30,21 @@ import java.net.URL
 
 class MainActivity : AppCompatActivity() {
 
+    private enum class TrainingAction {
+        SKIP,
+        RESET,
+        DONE
+    }
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var database: GymHelperDatabase
     private lateinit var importer: ProgramJsonImporter
     private lateinit var trackerRepository: WorkoutTrackerRepository
 
-    private val trainingAdapter = TrainingMenuAdapter { trainingId ->
-        openTrainingDetail(trainingId)
-    }
+    private val trainingAdapter = TrainingMenuAdapter(
+        onTrainingClicked = { trainingId -> openTrainingDetail(trainingId) },
+        onTrainingLongPressed = { trainingProgressId -> showTrainingActionsMenu(trainingProgressId) }
+    )
 
     private var currentProgramState: ProgramTrackerState? = null
     private val localJsonPicker = registerForActivityResult(
@@ -218,7 +225,14 @@ class MainActivity : AppCompatActivity() {
         bindProgramHeader(programState)
         bindHiitCard(programState)
 
-        val menuItems = withContext(Dispatchers.IO) {
+        val menuItems = buildTrainingMenuItems(programState)
+
+        trainingAdapter.submitItems(menuItems)
+        binding.trainingRecyclerView.scheduleLayoutAnimation()
+    }
+
+    private suspend fun buildTrainingMenuItems(programState: ProgramTrackerState): List<TrainingMenuItem> {
+        return withContext(Dispatchers.IO) {
             val programId = programState.program.program.programId
             val weekNumber = programState.programProgress.currentWeek
 
@@ -230,12 +244,15 @@ class MainActivity : AppCompatActivity() {
                     programNumberOfWeeks = programState.program.program.numberOfWeeks
                 )
                 val weekExercises = trainingState.exerciseStates.filter { it.weekPlan != null }
+                val plannedSets = weekExercises.sumOf { it.progress.plannedSets }
                 val doneExercises = weekExercises.count { it.progress.status == ProgressStatus.DONE }
                 val skippedExercises = weekExercises.count { it.progress.status == ProgressStatus.SKIPPED }
 
                 TrainingMenuItem(
+                    trainingProgressId = trainingState.trainingProgress.trainingProgressId,
                     trainingId = training.training.trainingId,
                     title = training.training.name,
+                    plannedSets = plannedSets,
                     doneExercises = doneExercises,
                     skippedExercises = skippedExercises,
                     totalExercises = weekExercises.size,
@@ -243,9 +260,48 @@ class MainActivity : AppCompatActivity() {
                 )
             }
         }
+    }
 
-        trainingAdapter.submitItems(menuItems)
-        binding.trainingRecyclerView.scheduleLayoutAnimation()
+    private fun showTrainingActionsMenu(trainingProgressId: Long) {
+        lifecycleScope.launch {
+            val programState = currentProgramState ?: return@launch
+            val item = buildTrainingMenuItems(programState).firstOrNull {
+                it.trainingProgressId == trainingProgressId
+            } ?: return@launch
+
+            val actions = buildList {
+                if (item.status != ProgressStatus.DONE) add(TrainingAction.SKIP)
+                if (item.plannedSets > 0) add(TrainingAction.RESET)
+                if (item.status != ProgressStatus.DONE) add(TrainingAction.DONE)
+            }
+            if (actions.isEmpty()) return@launch
+
+            MaterialAlertDialogBuilder(this@MainActivity)
+                .setTitle(item.title)
+                .setItems(actions.map { actionLabel(it) }.toTypedArray()) { dialog, which ->
+                    dialog.dismiss()
+                    val selectedAction = actions[which]
+                    lifecycleScope.launch {
+                        withContext(Dispatchers.IO) {
+                            when (selectedAction) {
+                                TrainingAction.SKIP -> trackerRepository.skipTraining(item.trainingProgressId)
+                                TrainingAction.RESET -> trackerRepository.resetTraining(item.trainingProgressId)
+                                TrainingAction.DONE -> trackerRepository.markTrainingDone(item.trainingProgressId)
+                            }
+                        }
+                        loadProgramAndRender()
+                    }
+                }
+                .show()
+        }
+    }
+
+    private fun actionLabel(action: TrainingAction): String {
+        return when (action) {
+            TrainingAction.SKIP -> getString(R.string.exercise_action_skip)
+            TrainingAction.RESET -> getString(R.string.exercise_action_reset)
+            TrainingAction.DONE -> getString(R.string.exercise_action_done)
+        }
     }
 
     private fun bindProgramHeader(programState: ProgramTrackerState) {

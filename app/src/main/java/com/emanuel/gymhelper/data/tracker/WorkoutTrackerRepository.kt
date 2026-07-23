@@ -139,6 +139,24 @@ class WorkoutTrackerRepository(
         return recalculateExerciseAndTraining(exerciseProgressId)
     }
 
+    suspend fun resetExercise(exerciseProgressId: Long): TrackerActionResult {
+        val now = now()
+        progressDao.updateAllSetStatuses(exerciseProgressId, ProgressStatus.PENDING, now)
+        return recalculateExerciseAndTraining(exerciseProgressId)
+    }
+
+    suspend fun skipTraining(trainingProgressId: Long) {
+        updateTrainingProgressBulk(trainingProgressId, ProgressStatus.SKIPPED)
+    }
+
+    suspend fun resetTraining(trainingProgressId: Long) {
+        updateTrainingProgressBulk(trainingProgressId, ProgressStatus.PENDING)
+    }
+
+    suspend fun markTrainingDone(trainingProgressId: Long) {
+        updateTrainingProgressBulk(trainingProgressId, ProgressStatus.DONE)
+    }
+
     suspend fun getWeekSummary(programId: Long, weekNumber: Int): WeekSummary {
         val doneExercises = progressDao.countExercisesByStatus(programId, weekNumber, ProgressStatus.DONE)
         val skippedExercises = progressDao.countExercisesByStatus(programId, weekNumber, ProgressStatus.SKIPPED)
@@ -374,6 +392,57 @@ class WorkoutTrackerRepository(
             exerciseFinished = exerciseStatus != ProgressStatus.PENDING,
             trainingFinished = trainingStatus != ProgressStatus.PENDING
         )
+    }
+
+    private suspend fun updateTrainingProgressBulk(
+        trainingProgressId: Long,
+        finalStatus: String
+    ) {
+        val currentExercises = progressDao.getExerciseProgressForTraining(trainingProgressId)
+        val now = now()
+
+        currentExercises.forEach { exercise ->
+            when (finalStatus) {
+                ProgressStatus.PENDING -> {
+                    progressDao.updateAllSetStatuses(exercise.exerciseProgressId, ProgressStatus.PENDING, now)
+                    progressDao.updateExerciseProgress(
+                        exerciseProgressId = exercise.exerciseProgressId,
+                        completedSets = 0,
+                        skippedSets = 0,
+                        status = ProgressStatus.PENDING,
+                        weightText = exercise.weightText,
+                        completedAtEpochMs = null,
+                        updatedAtEpochMs = now
+                    )
+                }
+                ProgressStatus.SKIPPED -> {
+                    progressDao.updateAllSetStatuses(exercise.exerciseProgressId, ProgressStatus.SKIPPED, now)
+                    progressDao.updateExerciseProgress(
+                        exerciseProgressId = exercise.exerciseProgressId,
+                        completedSets = 0,
+                        skippedSets = exercise.plannedSets,
+                        status = ProgressStatus.SKIPPED,
+                        weightText = exercise.weightText,
+                        completedAtEpochMs = now,
+                        updatedAtEpochMs = now
+                    )
+                }
+                ProgressStatus.DONE -> {
+                    progressDao.updateAllSetStatuses(exercise.exerciseProgressId, ProgressStatus.DONE, now)
+                    progressDao.updateExerciseProgress(
+                        exerciseProgressId = exercise.exerciseProgressId,
+                        completedSets = exercise.plannedSets,
+                        skippedSets = 0,
+                        status = ProgressStatus.DONE,
+                        weightText = exercise.weightText,
+                        completedAtEpochMs = now,
+                        updatedAtEpochMs = now
+                    )
+                }
+            }
+        }
+
+        progressDao.updateTrainingStatus(trainingProgressId, finalStatus, now)
     }
 
     private fun ProgramWithTrainings.sortedDeep(): ProgramWithTrainings {

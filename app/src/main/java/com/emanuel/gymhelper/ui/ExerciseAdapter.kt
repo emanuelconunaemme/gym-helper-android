@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.emanuel.gymhelper.R
+import com.emanuel.gymhelper.data.local.room.model.IntensityType
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.button.MaterialButton
 
@@ -26,7 +27,6 @@ class ExerciseAdapter(
             override fun onMarkSetDone(exerciseProgressId: Long, weightText: String) = Unit
             override fun onSkipSet(exerciseProgressId: Long, weightText: String) = Unit
             override fun onMarkExerciseDone(exerciseProgressId: Long, weightText: String) = Unit
-            override fun onSkipExercise(exerciseProgressId: Long, weightText: String) = Unit
         }
     )
 
@@ -56,7 +56,6 @@ class ExerciseAdapter(
         fun onMarkSetDone(exerciseProgressId: Long, weightText: String)
         fun onSkipSet(exerciseProgressId: Long, weightText: String)
         fun onMarkExerciseDone(exerciseProgressId: Long, weightText: String)
-        fun onSkipExercise(exerciseProgressId: Long, weightText: String)
     }
 
     class ExerciseViewHolder(
@@ -78,7 +77,6 @@ class ExerciseAdapter(
         private val skipSetButton = itemView.findViewById<MaterialButton>(R.id.skipSetButton)
         private val markExerciseDoneButton =
             itemView.findViewById<MaterialButton>(R.id.markExerciseDoneButton)
-        private val skipExerciseButton = itemView.findViewById<MaterialButton>(R.id.skipExerciseButton)
         private val expandHintText = itemView.findViewById<TextView>(R.id.expandHintText)
         private val detailsContainer = itemView.findViewById<View>(R.id.exerciseDetailsContainer)
         private val detailsText = itemView.findViewById<TextView>(R.id.exerciseDetailsText)
@@ -122,7 +120,6 @@ class ExerciseAdapter(
             markSetDoneButton.isEnabled = hasPendingSets
             skipSetButton.isEnabled = hasPendingSets
             markExerciseDoneButton.isEnabled = !item.isCompleted
-            skipExerciseButton.isEnabled = !item.isSkipped
 
             card.setOnClickListener { listener.onExerciseClicked(item.exerciseProgressId) }
             saveWeightButton.setOnClickListener {
@@ -146,18 +143,15 @@ class ExerciseAdapter(
                     weightEditText.text?.toString().orEmpty()
                 )
             }
-            skipExerciseButton.setOnClickListener {
-                listener.onSkipExercise(item.exerciseProgressId, weightEditText.text?.toString().orEmpty())
-            }
         }
 
         private fun applyCardStyle(item: ExerciseCardItem) {
             val context = itemView.context
+            val intensityType = IntensityType.fromDbValue(item.intensityTypeValue)
             val strokeColor = when {
                 item.isCompleted -> R.color.status_done
                 item.isSkipped -> R.color.status_skipped
-                item.intensityTypeValue == "stripping_2x" -> R.color.intensity_stripping
-                item.intensityTypeValue == "rest_pause_2x" -> R.color.intensity_rest_pause
+                intensityType.shouldShowIntensityBadge() -> intensityType.accentColorRes()
                 else -> R.color.card_stroke_default
             }
             card.strokeColor = ContextCompat.getColor(context, strokeColor)

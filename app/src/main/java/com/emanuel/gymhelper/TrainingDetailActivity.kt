@@ -28,6 +28,12 @@ import kotlin.math.ceil
 
 class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Listener {
 
+    private enum class ExerciseAction {
+        SKIP,
+        RESET,
+        DONE
+    }
+
     private lateinit var binding: ActivityTrainingDetailBinding
     private lateinit var trackerRepository: WorkoutTrackerRepository
 
@@ -191,6 +197,7 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
                         (progress.completedSets + progress.skippedSets).toString(),
                         progress.plannedSets.toString()
                     ),
+                    plannedSets = progress.plannedSets,
                     intensityType = exerciseState.effectiveIntensityType.dbValue,
                     isDone = progress.status == ProgressStatus.DONE,
                     isSkipped = progress.status == ProgressStatus.SKIPPED,
@@ -215,6 +222,10 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
         expandedExerciseProgressId =
             if (expandedExerciseProgressId == exerciseProgressId) null else exerciseProgressId
         renderSessionItems()
+    }
+
+    override fun onExerciseCardLongPressed(exerciseProgressId: Long) {
+        showExerciseActionsMenu(exerciseProgressId)
     }
 
     override fun onEditWeight(exerciseProgressId: Long) {
@@ -247,6 +258,65 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
             input.requestFocus()
             val imm = getSystemService(InputMethodManager::class.java)
             imm?.showSoftInput(input, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    private fun showExerciseActionsMenu(exerciseProgressId: Long) {
+        if (activeTimer != null) {
+            Toast.makeText(this, getString(R.string.timer_already_running), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val item = sessionItems.firstOrNull { it.exerciseProgressId == exerciseProgressId } ?: return
+        val actions = buildList {
+            if (!item.isDone) add(ExerciseAction.SKIP)
+            if (item.plannedSets > 0) add(ExerciseAction.RESET)
+            if (!item.isDone) add(ExerciseAction.DONE)
+        }
+        if (actions.isEmpty()) return
+
+        MaterialAlertDialogBuilder(this)
+            .setTitle(item.name)
+            .setItems(actions.map { actionLabel(it) }.toTypedArray()) { dialog, which ->
+                dialog.dismiss()
+                val selectedAction = actions[which]
+                lifecycleScope.launch {
+                    when (selectedAction) {
+                        ExerciseAction.SKIP -> withContext(Dispatchers.IO) {
+                            trackerRepository.skipExercise(
+                                exerciseProgressId,
+                                item.currentWeight.orEmpty()
+                            )
+                        }
+                        ExerciseAction.RESET -> withContext(Dispatchers.IO) {
+                            trackerRepository.resetExercise(exerciseProgressId)
+                        }
+                        ExerciseAction.DONE -> withContext(Dispatchers.IO) {
+                            trackerRepository.markExerciseDone(
+                                exerciseProgressId,
+                                item.currentWeight.orEmpty()
+                            )
+                        }
+                    }
+
+                    if (!refreshTrainingState()) return@launch
+
+                    expandedExerciseProgressId = if (selectedAction == ExerciseAction.RESET) {
+                        exerciseProgressId
+                    } else {
+                        findNextPendingExercise(exerciseProgressId)
+                    }
+                    renderSessionItems()
+                }
+            }
+            .show()
+    }
+
+    private fun actionLabel(action: ExerciseAction): String {
+        return when (action) {
+            ExerciseAction.SKIP -> getString(R.string.exercise_action_skip)
+            ExerciseAction.RESET -> getString(R.string.exercise_action_reset)
+            ExerciseAction.DONE -> getString(R.string.exercise_action_done)
         }
     }
 
@@ -304,28 +374,6 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
             } else {
                 moveToNextExercise()
             }
-        }
-    }
-
-    override fun onSkipExercise(exerciseProgressId: Long) {
-        if (activeTimer != null) {
-            Toast.makeText(this, getString(R.string.timer_already_running), Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val weightText = sessionItems
-            .firstOrNull { it.exerciseProgressId == exerciseProgressId }
-            ?.currentWeight
-            .orEmpty()
-
-        lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
-                trackerRepository.skipExercise(exerciseProgressId, weightText)
-            }
-            if (!refreshTrainingState()) return@launch
-
-            expandedExerciseProgressId = findNextPendingExercise(exerciseProgressId)
-            renderSessionItems()
         }
     }
 

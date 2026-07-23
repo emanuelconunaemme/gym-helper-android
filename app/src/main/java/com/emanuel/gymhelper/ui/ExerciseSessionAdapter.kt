@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.emanuel.gymhelper.R
+import com.emanuel.gymhelper.data.local.room.model.IntensityType
 import com.google.android.material.card.MaterialCardView
 import com.google.android.material.button.MaterialButton
 
@@ -18,9 +19,9 @@ class ExerciseSessionAdapter(
 
     interface Listener {
         fun onExerciseCardTapped(exerciseProgressId: Long)
+        fun onExerciseCardLongPressed(exerciseProgressId: Long)
         fun onEditWeight(exerciseProgressId: Long)
         fun onFinishSet(exerciseProgressId: Long)
-        fun onSkipExercise(exerciseProgressId: Long)
     }
 
     private var items: List<ExerciseSessionItem> = emptyList()
@@ -69,7 +70,6 @@ class ExerciseSessionAdapter(
         private val expandedContent = itemView.findViewById<View>(R.id.expandedContent)
         private val weightValueText = itemView.findViewById<TextView>(R.id.weightValueText)
         private val finishButton = itemView.findViewById<MaterialButton>(R.id.finishButton)
-        private val skipButton = itemView.findViewById<MaterialButton>(R.id.skipButton)
         private val timerContainer = itemView.findViewById<MaterialCardView>(R.id.timerContainer)
         private val timerText = itemView.findViewById<TextView>(R.id.timerText)
 
@@ -138,20 +138,14 @@ class ExerciseSessionAdapter(
                 }
             }
 
-            when (item.intensityType) {
-                "rest_pause_2x" -> {
-                    intensityTag.visibility = View.VISIBLE
-                    intensityTag.text = context.getString(R.string.intensity_rest_pause_2x_short)
-                    intensityTag.backgroundTintList =
-                        ContextCompat.getColorStateList(context, R.color.intensity_rest_pause)
-                }
-                "stripping_2x" -> {
-                    intensityTag.visibility = View.VISIBLE
-                    intensityTag.text = context.getString(R.string.intensity_stripping_2x_short)
-                    intensityTag.backgroundTintList =
-                        ContextCompat.getColorStateList(context, R.color.intensity_stripping)
-                }
-                else -> intensityTag.visibility = View.GONE
+            val intensityType = IntensityType.fromDbValue(item.intensityType)
+            if (intensityType.shouldShowIntensityBadge()) {
+                intensityTag.visibility = View.VISIBLE
+                intensityTag.text = context.getString(intensityType.badgeTextRes())
+                intensityTag.backgroundTintList =
+                    ContextCompat.getColorStateList(context, intensityType.accentColorRes())
+            } else {
+                intensityTag.visibility = View.GONE
             }
 
             expandedContent.visibility = if (item.expanded) View.VISIBLE else View.GONE
@@ -215,12 +209,14 @@ class ExerciseSessionAdapter(
 
             val actionEnabled = !item.isDone && !item.isSkipped
             finishButton.isEnabled = actionEnabled
-            skipButton.isEnabled = actionEnabled
 
             card.setOnClickListener { listener.onExerciseCardTapped(item.exerciseProgressId) }
+            card.setOnLongClickListener {
+                listener.onExerciseCardLongPressed(item.exerciseProgressId)
+                true
+            }
             weightValueText.setOnClickListener { listener.onEditWeight(item.exerciseProgressId) }
             finishButton.setOnClickListener { listener.onFinishSet(item.exerciseProgressId) }
-            skipButton.setOnClickListener { listener.onSkipExercise(item.exerciseProgressId) }
         }
     }
 }

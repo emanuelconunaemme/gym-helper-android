@@ -99,6 +99,19 @@ interface WorkoutProgressDao {
         UPDATE set_progress
         SET status = :status, updatedAtEpochMs = :updatedAtEpochMs
         WHERE exerciseProgressId = :exerciseProgressId
+        """
+    )
+    suspend fun updateAllSetStatuses(
+        exerciseProgressId: Long,
+        status: String,
+        updatedAtEpochMs: Long
+    )
+
+    @Query(
+        """
+        UPDATE set_progress
+        SET status = :status, updatedAtEpochMs = :updatedAtEpochMs
+        WHERE exerciseProgressId = :exerciseProgressId
         AND status = :pendingStatus
         """
     )

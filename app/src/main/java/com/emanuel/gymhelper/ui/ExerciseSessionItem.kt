@@ -5,6 +5,7 @@ data class ExerciseSessionItem(
     val name: String,
     val setsReps: String,
     val setProgressText: String,
+    val plannedSets: Int,
     val intensityType: String,
     val isDone: Boolean,
     val isSkipped: Boolean,
