@@ -150,4 +150,7 @@
     <string name="stretching_start_stretching_prompt">start stretching</string>
     <string name="stretching_notification_channel">Stretching timer</string>
     <string name="stretching_notification_template">%1$s • %2$s</string>
+    <string name="workout_rest_notification_channel">Workout rest timer</string>
+    <string name="workout_rest_notification_title">Workout rest</string>
+    <string name="workout_rest_notification_template">Rest • %1$s</string>
 </resources>

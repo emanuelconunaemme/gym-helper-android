@@ -1,14 +1,17 @@
 package com.emanuel.gymhelper
 
-import android.media.AudioManager
-import android.media.ToneGenerator
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.text.InputType
 import android.widget.EditText
 import android.widget.Toast
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.emanuel.gymhelper.data.local.room.model.IntensityType
@@ -24,7 +27,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlin.math.ceil
 
 class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Listener {
 
@@ -38,7 +40,6 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     private lateinit var trackerRepository: WorkoutTrackerRepository
 
     private val sessionAdapter = ExerciseSessionAdapter(this)
-    private val toneGenerator = ToneGenerator(AudioManager.STREAM_ALARM, 100)
 
     private var selectedTrainingId: Long = -1L
     private var currentProgramState: ProgramTrackerState? = null
@@ -50,9 +51,18 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     private var totalSetsForHeader = 0
     private var resolvedSetsForHeader = 0
 
-    private var activeTimer: CountDownTimer? = null
+    private var isRestTimerRunning = false
     private var activeTimerExerciseProgressId: Long? = null
     private var timerRemainingSeconds: Int? = null
+    private var activeTimerFinishedAction: (() -> Unit)? = null
+    private var isRestTimerStateReceiverRegistered = false
+
+    private val restTimerStateReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != WorkoutRestTimerService.ACTION_STATE) return
+            bindRestTimerState(intent)
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +78,8 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
         trackerRepository = AppDependencies.trackerRepository(this)
 
         setupUi()
+        registerRestTimerStateReceiver()
+        sendRestTimerCommand(WorkoutRestTimerService.ACTION_QUERY)
         lifecycleScope.launch {
             if (!refreshTrainingState()) {
                 finish()
@@ -76,9 +88,11 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     }
 
     override fun onDestroy() {
+        if (isRestTimerStateReceiverRegistered) {
+            unregisterReceiver(restTimerStateReceiver)
+            isRestTimerStateReceiverRegistered = false
+        }
         super.onDestroy()
-        cancelTimer()
-        toneGenerator.release()
     }
 
     private fun setupUi() {
@@ -262,7 +276,7 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     }
 
     private fun showExerciseActionsMenu(exerciseProgressId: Long) {
-        if (activeTimer != null) {
+        if (isRestTimerRunning) {
             Toast.makeText(this, getString(R.string.timer_already_running), Toast.LENGTH_SHORT).show()
             return
         }
@@ -321,7 +335,7 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
     }
 
     override fun onFinishSet(exerciseProgressId: Long) {
-        if (activeTimer != null) {
+        if (isRestTimerRunning) {
             Toast.makeText(this, getString(R.string.timer_already_running), Toast.LENGTH_SHORT).show()
             return
         }
@@ -382,7 +396,7 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
         seconds: Int,
         onFinished: () -> Unit
     ) {
-        cancelTimer()
+        clearLocalTimerState()
 
         if (seconds <= 0) {
             onFinished()
@@ -391,35 +405,78 @@ class TrainingDetailActivity : AppCompatActivity(), ExerciseSessionAdapter.Liste
 
         activeTimerExerciseProgressId = exerciseProgressId
         timerRemainingSeconds = seconds
+        isRestTimerRunning = true
+        activeTimerFinishedAction = onFinished
         renderSessionItems()
-
-        val durationMs = seconds * 1000L
-        activeTimer = object : CountDownTimer(durationMs, 250L) {
-            override fun onTick(millisUntilFinished: Long) {
-                timerRemainingSeconds = ceil(millisUntilFinished / 1000.0).toInt().coerceAtLeast(1)
-                renderSessionItems()
-            }
-
-            override fun onFinish() {
-                activeTimer = null
-                activeTimerExerciseProgressId = null
-                timerRemainingSeconds = null
-                renderSessionItems()
-                playTimerBeep()
-                onFinished()
-            }
-        }.start()
+        sendRestTimerCommand(
+            action = WorkoutRestTimerService.ACTION_START,
+            exerciseProgressId = exerciseProgressId,
+            durationSeconds = seconds
+        )
     }
 
-    private fun cancelTimer() {
-        activeTimer?.cancel()
-        activeTimer = null
+    private fun clearLocalTimerState() {
+        isRestTimerRunning = false
         activeTimerExerciseProgressId = null
         timerRemainingSeconds = null
+        activeTimerFinishedAction = null
     }
 
-    private fun playTimerBeep() {
-        toneGenerator.startTone(ToneGenerator.TONE_CDMA_ALERT_CALL_GUARD, 600)
+    private fun bindRestTimerState(intent: Intent) {
+        val serviceExerciseProgressId = intent.getLongExtra(
+            WorkoutRestTimerService.EXTRA_EXERCISE_PROGRESS_ID,
+            -1L
+        )
+        val finished = intent.getBooleanExtra(WorkoutRestTimerService.EXTRA_FINISHED, false)
+        val running = intent.getBooleanExtra(WorkoutRestTimerService.EXTRA_IS_RUNNING, false)
+
+        if (finished && serviceExerciseProgressId == activeTimerExerciseProgressId) {
+            val onFinished = activeTimerFinishedAction
+            clearLocalTimerState()
+            renderSessionItems()
+            onFinished?.invoke()
+            return
+        }
+
+        isRestTimerRunning = running
+        activeTimerExerciseProgressId = if (running) serviceExerciseProgressId else null
+        timerRemainingSeconds = if (running) {
+            intent.getIntExtra(WorkoutRestTimerService.EXTRA_REMAINING_SECONDS, 0)
+        } else {
+            null
+        }
+        if (!running) {
+            activeTimerFinishedAction = null
+        }
+        renderSessionItems()
+    }
+
+    private fun registerRestTimerStateReceiver() {
+        val filter = IntentFilter(WorkoutRestTimerService.ACTION_STATE)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            registerReceiver(restTimerStateReceiver, filter, RECEIVER_NOT_EXPORTED)
+        } else {
+            @Suppress("DEPRECATION")
+            registerReceiver(restTimerStateReceiver, filter)
+        }
+        isRestTimerStateReceiverRegistered = true
+    }
+
+    private fun sendRestTimerCommand(
+        action: String,
+        exerciseProgressId: Long = activeTimerExerciseProgressId ?: -1L,
+        durationSeconds: Int = timerRemainingSeconds ?: 0
+    ) {
+        val intent = Intent(this, WorkoutRestTimerService::class.java)
+            .setAction(action)
+            .putExtra(WorkoutRestTimerService.EXTRA_EXERCISE_PROGRESS_ID, exerciseProgressId)
+            .putExtra(WorkoutRestTimerService.EXTRA_DURATION_SECONDS, durationSeconds)
+
+        if (action == WorkoutRestTimerService.ACTION_START) {
+            ContextCompat.startForegroundService(this, intent)
+        } else {
+            startService(intent)
+        }
     }
 
     private fun ongoingExerciseProgressId(): Long? {
