@@ -1,0 +1,2524 @@
+{
+  "program": {
+    "name": "EMANUEL MAZZILLI 8",
+    "prehab_markdown": "",
+    "number_of_weeks": 7,
+    "unload_week": false,
+    "source": {
+      "type": "pdf",
+      "path": "/Users/emanuel/Downloads/EMANUEL MAZZILLI 8.pdf",
+      "notes": "Converted from PDF extraction. Verify before final import."
+    },
+    "trainings": [
+      {
+        "name": "Scheda A",
+        "exercises": [
+          {
+            "exercise_type": {
+              "name": "PANCA PIANA BILANCIERE",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 120,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "SHOULDER PRESS",
+              "youtube_video": null,
+              "notes": "NEGATIVA IN 3 SECONDI"
+            },
+            "intensity_type": "negativa_3s",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CROCI AI CAVI ALTI",
+              "youtube_video": null,
+              "notes": "ULTIMO SET REST PAUSE X2"
+            },
+            "intensity_type": "rest_pause_2x",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "ALZATE LATERALI IN PIEDI MANUBRI",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "ALZATE LATERALI SINGOLE PANCA 30°",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "FRENCH PRESS BILANCIERE EZ",
+              "youtube_video": null,
+              "notes": "NEGATIVA IN 3 SECONDI"
+            },
+            "intensity_type": "negativa_3s",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "PUSH DOWN CON CORDA",
+              "youtube_video": null,
+              "notes": "ULTIMO SET REST PAUSE X2"
+            },
+            "intensity_type": "rest_pause_2x",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Scheda B",
+        "exercises": [
+          {
+            "exercise_type": {
+              "name": "LAT MACHINE PRESA MEDIA",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 120,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "REMATORE UNILATERALE AL CAVO BASSO PANCA 45°",
+              "youtube_video": null,
+              "notes": "NEGATIVA IN 3 SECONDI"
+            },
+            "intensity_type": "negativa_3s",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "UPPERBACK MACHINE",
+              "youtube_video": null,
+              "notes": "RICERCA UN ADDUZIONE SCAPOLARE"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "APERTURE POSTERIORI AI CAVI ALTI",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "LEG CURL",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 9,
+                    "repetitions_max": 9
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 9,
+                    "repetitions_max": 9
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CURL MANUBRI PANCA 60°",
+              "youtube_video": null,
+              "notes": "NEGATIVA IN 3 SECONDI"
+            },
+            "intensity_type": "negativa_3s",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CURL BARRA DRITTA AL CAVO BASSO",
+              "youtube_video": null,
+              "notes": "ULTIMO SET REST PAUSE X2"
+            },
+            "intensity_type": "rest_pause_2x",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Scheda C",
+        "exercises": [
+          {
+            "exercise_type": {
+              "name": "LEG PRESS 45°",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 120,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "LEG EXTENSION",
+              "youtube_video": null,
+              "notes": "FERMO 1 SECONDO IN MASSIMA CONTRAZIONE"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CHEST PRESS",
+              "youtube_video": null,
+              "notes": "NEGATIVA CONTROLLATA"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CROCI PANCA 30° AI CAVI BASSI",
+              "youtube_video": null,
+              "notes": "REST PAUSE X2 ULTIMO SET"
+            },
+            "intensity_type": "rest_pause_2x",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 12,
+                    "repetitions_max": 15
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "ALZATE LATERALI SINGOLE AL CAVO BASSO",
+              "youtube_video": null,
+              "notes": "NEGATIVA CONTROLLATA"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "ALZATE LATERALI MANUBRI SEDUTO A TERRA CON DEADSTOP",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "PUSH DOWN BARRA DRITTA",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "FRENCH PRESS AL CAVO BASSO CON CORDA",
+              "youtube_video": null,
+              "notes": "ULTIMO SET REST PAUSE X2"
+            },
+            "intensity_type": "rest_pause_2x",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Scheda D",
+        "exercises": [
+          {
+            "exercise_type": {
+              "name": "HYPEREXTENSION CON SOVRACCARICO",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 120,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 1,
+                    "repetitions_min": 3,
+                    "repetitions_max": 5
+                  },
+                  {
+                    "set_count": 2,
+                    "repetitions_min": 6,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "LEG CURL",
+              "youtube_video": null,
+              "notes": "FERMO 1 SECONDO IN MASSIMA CONTRAZIONE"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "PULLEY",
+              "youtube_video": null,
+              "notes": "NEGATIVA CONTROLLATA"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 10
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "LAT MACHINE SINGOLA",
+              "youtube_video": null,
+              "notes": "BUSTO LEGGERMENTE INCLINATO IN DIETRO E NON TI SEDERE TROPPO AVANTI CON IL BACINO"
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "PULLOVER MANUBRIO",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CURL MANUBRI SEDUTO IN APPOGGIO SUL PAD DELLA LAT MACHINE",
+              "youtube_video": null,
+              "notes": null
+            },
+            "intensity_type": "none",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 7,
+                    "repetitions_max": 7
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 6,
+                    "repetitions_max": 6
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 4,
+                    "repetitions_min": 8,
+                    "repetitions_max": 8
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "exercise_type": {
+              "name": "CURL MANUBRI SU PANCA 45°",
+              "youtube_video": null,
+              "notes": "ULTIMO SET REST PAUSE X2"
+            },
+            "intensity_type": "rest_pause_2x",
+            "rest_seconds": 90,
+            "weeks": [
+              {
+                "week": 1,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 2,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 3,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 4,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              },
+              {
+                "week": 5,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 11,
+                    "repetitions_max": 11
+                  }
+                ]
+              },
+              {
+                "week": 6,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 10,
+                    "repetitions_max": 10
+                  }
+                ]
+              },
+              {
+                "week": 7,
+                "set_repetitions": [
+                  {
+                    "set_count": 3,
+                    "repetitions_min": 12,
+                    "repetitions_max": 12
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
