@@ -499,7 +499,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private const val LOCAL_PROGRAM_ASSET = "program_emanuel_mazzilli_5.json"
+        private const val LOCAL_PROGRAM_ASSET = "program_emanuel_mazzilli_9.json"
         private const val REQUEST_TIMEOUT_MS = 15000
         private const val WHOOP_PACKAGE_NAME = "com.whoop.android"
         private const val CITYSPORTS_PACKAGE_NAME = "com.citysportsfitness.android"

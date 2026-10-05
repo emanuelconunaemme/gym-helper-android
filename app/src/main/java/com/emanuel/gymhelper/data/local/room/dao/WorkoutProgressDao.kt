@@ -206,6 +206,39 @@ interface WorkoutProgressDao {
 
     @Query(
         """
+        SELECT ep.weightText
+        FROM exercise_progress ep
+        INNER JOIN exercises e ON e.exerciseId = ep.exerciseId
+        INNER JOIN exercise_types et ON et.exerciseTypeId = e.exerciseTypeId
+        INNER JOIN trainings t ON t.trainingId = e.trainingId
+        INNER JOIN programs sourceProgram ON sourceProgram.programId = t.programId
+        WHERE sourceProgram.name = :sourceProgramName
+          AND et.name = :exerciseName
+          AND ep.weightText IS NOT NULL
+          AND TRIM(ep.weightText) != ''
+          AND EXISTS (
+              SELECT 1
+              FROM programs targetProgram
+              WHERE targetProgram.programId = :targetProgramId
+                AND targetProgram.name = :targetProgramName
+          )
+        ORDER BY t.sortOrder DESC,
+                 e.sortOrder DESC,
+                 ep.weekNumber DESC,
+                 COALESCE(ep.completedAtEpochMs, ep.updatedAtEpochMs) DESC,
+                 ep.exerciseProgressId DESC
+        LIMIT 1
+        """
+    )
+    suspend fun getCarryoverWeightForExerciseName(
+        targetProgramId: Long,
+        targetProgramName: String,
+        sourceProgramName: String,
+        exerciseName: String
+    ): String?
+
+    @Query(
+        """
         SELECT COUNT(*)
         FROM exercise_progress ep
         INNER JOIN training_progress tp ON tp.trainingProgressId = ep.trainingProgressId

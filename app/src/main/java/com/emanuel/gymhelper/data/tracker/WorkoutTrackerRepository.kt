@@ -50,6 +50,7 @@ class WorkoutTrackerRepository(
             val isUnloadWeek = weekNumber == unloadWeekNumber
             val trainingProgress = ensureTrainingProgress(programId, training.training.trainingId, weekNumber)
             ensureExerciseProgress(
+                programId = programId,
                 trainingProgressId = trainingProgress.trainingProgressId,
                 training = training,
                 weekNumber = weekNumber,
@@ -245,6 +246,7 @@ class WorkoutTrackerRepository(
     }
 
     private suspend fun ensureExerciseProgress(
+        programId: Long,
         trainingProgressId: Long,
         training: TrainingWithExercises,
         weekNumber: Int,
@@ -277,12 +279,17 @@ class WorkoutTrackerRepository(
             val existing = existingByExerciseId[exerciseId]
             if (existing == null) {
                 val now = now()
+                val carriedWeight = carryoverWeightForNewProgramExercise(
+                    programId = programId,
+                    exerciseName = exercise.exerciseType.name
+                )
                 val exerciseProgressId = progressDao.insertExerciseProgress(
                     ExerciseProgressEntity(
                         trainingProgressId = trainingProgressId,
                         exerciseId = exerciseId,
                         weekNumber = weekNumber,
                         plannedSets = expectedPlannedSets,
+                        weightText = carriedWeight,
                         updatedAtEpochMs = now
                     )
                 )
@@ -329,8 +336,33 @@ class WorkoutTrackerRepository(
                 if (needsRecalc) {
                     recalculateExerciseAndTraining(existing.exerciseProgressId)
                 }
+
+                if (existing.weightText.isNullOrBlank()) {
+                    carryoverWeightForNewProgramExercise(
+                        programId = programId,
+                        exerciseName = exercise.exerciseType.name
+                    )?.let { carriedWeight ->
+                        progressDao.updateExerciseWeight(
+                            exerciseProgressId = existing.exerciseProgressId,
+                            weightText = carriedWeight,
+                            updatedAtEpochMs = now()
+                        )
+                    }
+                }
             }
         }
+    }
+
+    private suspend fun carryoverWeightForNewProgramExercise(
+        programId: Long,
+        exerciseName: String
+    ): String? {
+        return progressDao.getCarryoverWeightForExerciseName(
+            targetProgramId = programId,
+            targetProgramName = CARRYOVER_TARGET_PROGRAM_NAME,
+            sourceProgramName = CARRYOVER_SOURCE_PROGRAM_NAME,
+            exerciseName = exerciseName
+        )
     }
 
     private suspend fun recalculateExerciseAndTraining(exerciseProgressId: Long): TrackerActionResult {
@@ -513,6 +545,8 @@ class WorkoutTrackerRepository(
         private const val HIIT_TOTAL_CYCLES = 4
         private const val UNLOAD_EXTRA_WEEK = 1
         private const val FIRST_WEEK_NUMBER = 1
+        private const val CARRYOVER_SOURCE_PROGRAM_NAME = "EMANUEL MAZZILLI 8"
+        private const val CARRYOVER_TARGET_PROGRAM_NAME = "EMANUEL MAZZILLI 9"
     }
 }
 
