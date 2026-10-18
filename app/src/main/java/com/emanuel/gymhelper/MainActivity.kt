@@ -4,12 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.text.InputType
+import android.text.format.DateUtils
 import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.health.connect.client.PermissionController
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.lifecycleScope
@@ -20,6 +22,7 @@ import com.emanuel.gymhelper.data.local.room.progress.ProgressStatus
 import com.emanuel.gymhelper.data.tracker.ProgramTrackerState
 import com.emanuel.gymhelper.data.tracker.WorkoutTrackerRepository
 import com.emanuel.gymhelper.databinding.ActivityMainBinding
+import com.emanuel.gymhelper.health.HealthConnectWeightReader
 import com.emanuel.gymhelper.ui.TrainingMenuAdapter
 import com.emanuel.gymhelper.ui.TrainingMenuItem
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -27,6 +30,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.net.URL
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +44,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: GymHelperDatabase
     private lateinit var importer: ProgramJsonImporter
     private lateinit var trackerRepository: WorkoutTrackerRepository
+    private lateinit var healthConnectWeightReader: HealthConnectWeightReader
+
+    private enum class BodyWeightAction {
+        CONNECT,
+        REFRESH,
+        UPDATE_HEALTH_CONNECT,
+        NONE
+    }
+
+    private var bodyWeightAction = BodyWeightAction.NONE
 
     private val trainingAdapter = TrainingMenuAdapter(
         onTrainingClicked = { trainingId -> openTrainingDetail(trainingId) },
@@ -54,6 +68,17 @@ class MainActivity : AppCompatActivity() {
             loadNewWaveFromPickedFile(uri)
         }
     }
+    private val healthPermissionsLauncher = registerForActivityResult(
+        PermissionController.createRequestPermissionResultContract()
+    ) { grantedPermissions ->
+        if (::healthConnectWeightReader.isInitialized &&
+            grantedPermissions.containsAll(healthConnectWeightReader.permissions)
+        ) {
+            refreshBodyWeight()
+        } else {
+            showBodyWeightPermissionRequired()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         database = AppDependencies.database(this)
         importer = AppDependencies.importer(this)
         trackerRepository = AppDependencies.trackerRepository(this)
+        healthConnectWeightReader = HealthConnectWeightReader(this)
 
         setupUi()
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
@@ -85,6 +111,7 @@ class MainActivity : AppCompatActivity() {
                 loadProgramAndRender()
             }
         }
+        refreshBodyWeight()
     }
 
     private fun setupUi() {
@@ -136,12 +163,161 @@ class MainActivity : AppCompatActivity() {
         binding.openWhoopAction.setOnClickListener {
             openWhoopApp()
         }
-        binding.openCitysportsAction.setOnClickListener {
-            openCitysportsApp()
+        binding.openPlexAction.setOnClickListener {
+            openPlexApp()
+        }
+        binding.bodyWeightActionButton.setOnClickListener {
+            handleBodyWeightAction()
         }
 
         bindWhoopIconIfAvailable()
-        bindCitysportsIconIfAvailable()
+        bindPlexIconIfAvailable()
+    }
+
+    private fun refreshBodyWeight() {
+        if (!::healthConnectWeightReader.isInitialized) return
+        when (healthConnectWeightReader.availability()) {
+            HealthConnectWeightReader.Availability.UNAVAILABLE -> {
+                showBodyWeightState(
+                    value = "—",
+                    detail = getString(R.string.body_weight_unavailable_description),
+                    actionLabel = null,
+                    action = BodyWeightAction.NONE
+                )
+            }
+
+            HealthConnectWeightReader.Availability.UPDATE_REQUIRED -> {
+                showBodyWeightState(
+                    value = "—",
+                    detail = getString(R.string.body_weight_update_description),
+                    actionLabel = getString(R.string.body_weight_update_action),
+                    action = BodyWeightAction.UPDATE_HEALTH_CONNECT
+                )
+            }
+
+            HealthConnectWeightReader.Availability.AVAILABLE -> {
+                showBodyWeightState(
+                    value = "—",
+                    detail = getString(R.string.body_weight_loading),
+                    actionLabel = null,
+                    action = BodyWeightAction.NONE
+                )
+                lifecycleScope.launch {
+                    try {
+                        if (!healthConnectWeightReader.hasPermission()) {
+                            showBodyWeightState(
+                                value = "—",
+                                detail = getString(R.string.body_weight_connect_description),
+                                actionLabel = getString(R.string.body_weight_connect_action),
+                                action = BodyWeightAction.CONNECT
+                            )
+                            return@launch
+                        }
+
+                        val latestWeight = healthConnectWeightReader.readLatest()
+                        if (latestWeight == null) {
+                            showBodyWeightState(
+                                value = "—",
+                                detail = getString(R.string.body_weight_empty_description),
+                                actionLabel = getString(R.string.body_weight_refresh_action),
+                                action = BodyWeightAction.REFRESH
+                            )
+                        } else {
+                            val source = latestWeight.sourceLabel
+                                ?: getString(R.string.body_weight_unknown_source)
+                            val measuredAt = DateUtils.getRelativeDateTimeString(
+                                this@MainActivity,
+                                latestWeight.measuredAt.toEpochMilli(),
+                                DateUtils.MINUTE_IN_MILLIS,
+                                DateUtils.WEEK_IN_MILLIS,
+                                DateUtils.FORMAT_SHOW_TIME
+                            )
+                            showBodyWeightState(
+                                value = formatBodyWeight(latestWeight.kilograms),
+                                detail = getString(
+                                    R.string.body_weight_detail,
+                                    source,
+                                    measuredAt
+                                ),
+                                actionLabel = getString(R.string.body_weight_refresh_action),
+                                action = BodyWeightAction.REFRESH
+                            )
+                        }
+                    } catch (_: SecurityException) {
+                        showBodyWeightPermissionRequired()
+                    } catch (_: Exception) {
+                        showBodyWeightState(
+                            value = "—",
+                            detail = getString(R.string.body_weight_error_description),
+                            actionLabel = getString(R.string.body_weight_refresh_action),
+                            action = BodyWeightAction.REFRESH
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleBodyWeightAction() {
+        when (bodyWeightAction) {
+            BodyWeightAction.CONNECT -> healthPermissionsLauncher.launch(
+                healthConnectWeightReader.permissions
+            )
+
+            BodyWeightAction.REFRESH -> refreshBodyWeight()
+            BodyWeightAction.UPDATE_HEALTH_CONNECT -> openHealthConnectPlayStore()
+            BodyWeightAction.NONE -> Unit
+        }
+    }
+
+    private fun showBodyWeightPermissionRequired() {
+        showBodyWeightState(
+            value = "—",
+            detail = getString(R.string.body_weight_permission_description),
+            actionLabel = getString(R.string.body_weight_allow_action),
+            action = BodyWeightAction.CONNECT
+        )
+    }
+
+    private fun showBodyWeightState(
+        value: String,
+        detail: String,
+        actionLabel: String?,
+        action: BodyWeightAction
+    ) {
+        binding.bodyWeightValueText.text = value
+        binding.bodyWeightDetailText.text = detail
+        binding.bodyWeightActionButton.text = actionLabel
+        binding.bodyWeightActionButton.visibility = if (actionLabel == null) View.GONE else View.VISIBLE
+        bodyWeightAction = action
+    }
+
+    private fun formatBodyWeight(kilograms: Double): String {
+        val country = resources.configuration.locales[0].country.uppercase(Locale.US)
+        return if (country in POUND_UNIT_COUNTRIES) {
+            getString(R.string.body_weight_value_lb, kilograms * KILOGRAMS_TO_POUNDS)
+        } else {
+            getString(R.string.body_weight_value_kg, kilograms)
+        }
+    }
+
+    private fun openHealthConnectPlayStore() {
+        val marketIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse("market://details?id=${HealthConnectWeightReader.HEALTH_CONNECT_PACKAGE_NAME}")
+        )
+        val webIntent = Intent(
+            Intent.ACTION_VIEW,
+            Uri.parse(
+                "https://play.google.com/store/apps/details?id=" +
+                    HealthConnectWeightReader.HEALTH_CONNECT_PACKAGE_NAME
+            )
+        )
+        try {
+            startActivity(marketIntent)
+        } catch (_: Exception) {
+            startActivity(webIntent)
+        }
     }
 
     private fun loadStartState() {
@@ -363,11 +539,11 @@ class MainActivity : AppCompatActivity() {
         binding.whoopIconImage.setImageDrawable(icon)
     }
 
-    private fun bindCitysportsIconIfAvailable() {
-        val launchIntent = resolveCitysportsLaunchIntent() ?: return
+    private fun bindPlexIconIfAvailable() {
+        val launchIntent = resolvePlexLaunchIntent() ?: return
         val packageName = launchIntent.`package` ?: return
         val icon = packageManager.getApplicationIcon(packageName)
-        binding.citysportsIconImage.setImageDrawable(icon)
+        binding.plexIconImage.setImageDrawable(icon)
     }
 
     private fun showLoadNewWaveOptions() {
@@ -479,10 +655,10 @@ class MainActivity : AppCompatActivity() {
         binding.mainDrawerLayout.closeDrawer(GravityCompat.START)
     }
 
-    private fun openCitysportsApp() {
-        val launchIntent = resolveCitysportsLaunchIntent()
+    private fun openPlexApp() {
+        val launchIntent = resolvePlexLaunchIntent()
         if (launchIntent == null) {
-            Toast.makeText(this, getString(R.string.citysports_not_found), Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.plex_not_found), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -494,14 +670,16 @@ class MainActivity : AppCompatActivity() {
         return packageManager.getLaunchIntentForPackage(WHOOP_PACKAGE_NAME)
     }
 
-    private fun resolveCitysportsLaunchIntent(): Intent? {
-        return packageManager.getLaunchIntentForPackage(CITYSPORTS_PACKAGE_NAME)
+    private fun resolvePlexLaunchIntent(): Intent? {
+        return packageManager.getLaunchIntentForPackage(PLEX_PACKAGE_NAME)
     }
 
     companion object {
         private const val LOCAL_PROGRAM_ASSET = "program_emanuel_mazzilli_9.json"
         private const val REQUEST_TIMEOUT_MS = 15000
         private const val WHOOP_PACKAGE_NAME = "com.whoop.android"
-        private const val CITYSPORTS_PACKAGE_NAME = "com.citysportsfitness.android"
+        private const val PLEX_PACKAGE_NAME = "com.daxko.club.automation.clubsportfit"
+        private const val KILOGRAMS_TO_POUNDS = 2.2046226218
+        private val POUND_UNIT_COUNTRIES = setOf("US", "LR", "MM")
     }
 }

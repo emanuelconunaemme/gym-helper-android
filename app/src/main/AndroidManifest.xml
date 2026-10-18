@@ -4,10 +4,12 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.health.READ_WEIGHT" />
 
     <queries>
         <package android:name="com.whoop.android" />
-        <package android:name="com.citysportsfitness.android" />
+        <package android:name="com.daxko.club.automation.clubsportfit" />
+        <package android:name="com.withings.wiscale2" />
     </queries>
 
     <application
@@ -38,6 +40,23 @@
         <activity
             android:name=".TrainingDetailActivity"
             android:exported="false" />
+        <activity
+            android:name=".PermissionsRationaleActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+        </activity>
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
+            android:targetActivity=".PermissionsRationaleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.emanuel.gymhelper"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.emanuel.gymhelper"
@@ -55,6 +55,7 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.recyclerview:recyclerview:1.3.2")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
+    implementation("androidx.health.connect:connect-client:1.1.0")
     implementation("androidx.room:room-runtime:$roomVersion")
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
