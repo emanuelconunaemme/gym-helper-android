@@ -104,7 +104,34 @@ class WorkoutTrackerRepository(
 
     suspend fun saveWeight(exerciseProgressId: Long, weightText: String) {
         val normalized = weightText.trim().takeIf { it.isNotBlank() }
-        progressDao.updateExerciseWeight(exerciseProgressId, normalized, now())
+        database.withTransaction {
+            val current = progressDao.getExerciseProgressById(exerciseProgressId)
+                ?: return@withTransaction
+            val now = now()
+            progressDao.updateExerciseWeight(exerciseProgressId, normalized, now)
+
+            val unloadWeekNumber = progressDao
+                .getProgramNumberOfWeeksForExerciseProgress(exerciseProgressId)
+                ?.let(::totalWeeksWithUnload)
+                ?: Int.MAX_VALUE
+            progressDao.updateUntouchedFutureExerciseWeights(
+                exerciseId = current.exerciseId,
+                afterWeekNumber = current.weekNumber,
+                beforeWeekNumber = unloadWeekNumber,
+                weightText = normalized,
+                updatedAtEpochMs = now
+            )
+
+            // The unload week intentionally reuses week 1's weight, not the latest week's weight.
+            if (current.weekNumber == FIRST_WEEK_NUMBER && unloadWeekNumber != Int.MAX_VALUE) {
+                progressDao.updateUntouchedExerciseWeightAtWeek(
+                    exerciseId = current.exerciseId,
+                    weekNumber = unloadWeekNumber,
+                    weightText = normalized,
+                    updatedAtEpochMs = now
+                )
+            }
+        }
     }
 
     suspend fun finishNextSetWithRest(exerciseProgressId: Long, weightText: String): TrackerActionResult {
@@ -279,10 +306,19 @@ class WorkoutTrackerRepository(
             val existing = existingByExerciseId[exerciseId]
             if (existing == null) {
                 val now = now()
-                val carriedWeight = carryoverWeightForNewProgramExercise(
-                    programId = programId,
-                    exerciseName = exercise.exerciseType.name
+                val previousProgress = previousProgressForWeight(
+                    exerciseId = exerciseId,
+                    weekNumber = weekNumber,
+                    isUnloadWeek = isUnloadWeek
                 )
+                val carriedWeight = if (previousProgress != null) {
+                    previousProgress.weightText
+                } else {
+                    carryoverWeightForNewProgramExercise(
+                        programId = programId,
+                        exerciseName = exercise.exerciseType.name
+                    )
+                }
                 val exerciseProgressId = progressDao.insertExerciseProgress(
                     ExerciseProgressEntity(
                         trainingProgressId = trainingProgressId,
@@ -337,19 +373,47 @@ class WorkoutTrackerRepository(
                     recalculateExerciseAndTraining(existing.exerciseProgressId)
                 }
 
-                if (existing.weightText.isNullOrBlank()) {
-                    carryoverWeightForNewProgramExercise(
+                if (existing.completedSets == 0 && existing.skippedSets == 0) {
+                    val previousProgress = previousProgressForWeight(
+                        exerciseId = exerciseId,
+                        weekNumber = weekNumber,
+                        isUnloadWeek = isUnloadWeek
+                    )
+                    val oldProgramCarryover = carryoverWeightForNewProgramExercise(
                         programId = programId,
                         exerciseName = exercise.exerciseType.name
-                    )?.let { carriedWeight ->
+                    )
+                    if (
+                        previousProgress != null &&
+                        existing.weightText == oldProgramCarryover &&
+                        existing.weightText != previousProgress.weightText
+                    ) {
                         progressDao.updateExerciseWeight(
                             exerciseProgressId = existing.exerciseProgressId,
-                            weightText = carriedWeight,
+                            weightText = previousProgress.weightText,
                             updatedAtEpochMs = now()
                         )
                     }
                 }
             }
+        }
+    }
+
+    private suspend fun previousProgressForWeight(
+        exerciseId: Long,
+        weekNumber: Int,
+        isUnloadWeek: Boolean
+    ): ExerciseProgressEntity? {
+        return if (isUnloadWeek) {
+            progressDao.getExerciseProgressAtWeek(
+                exerciseId = exerciseId,
+                weekNumber = FIRST_WEEK_NUMBER
+            )
+        } else {
+            progressDao.getLatestExerciseProgressBeforeWeek(
+                exerciseId = exerciseId,
+                weekNumber = weekNumber
+            )
         }
     }
 

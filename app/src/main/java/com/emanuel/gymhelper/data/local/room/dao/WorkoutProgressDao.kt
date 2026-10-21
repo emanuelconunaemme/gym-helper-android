@@ -159,6 +159,95 @@ interface WorkoutProgressDao {
 
     @Query(
         """
+        SELECT *
+        FROM exercise_progress
+        WHERE exerciseId = :exerciseId
+          AND weekNumber < :weekNumber
+        ORDER BY weekNumber DESC, updatedAtEpochMs DESC, exerciseProgressId DESC
+        LIMIT 1
+        """
+    )
+    suspend fun getLatestExerciseProgressBeforeWeek(
+        exerciseId: Long,
+        weekNumber: Int
+    ): ExerciseProgressEntity?
+
+    @Query(
+        """
+        SELECT *
+        FROM exercise_progress
+        WHERE exerciseId = :exerciseId
+          AND weekNumber = :weekNumber
+        ORDER BY updatedAtEpochMs DESC, exerciseProgressId DESC
+        LIMIT 1
+        """
+    )
+    suspend fun getExerciseProgressAtWeek(
+        exerciseId: Long,
+        weekNumber: Int
+    ): ExerciseProgressEntity?
+
+    @Query(
+        """
+        SELECT p.numberOfWeeks
+        FROM exercise_progress ep
+        INNER JOIN training_progress tp ON tp.trainingProgressId = ep.trainingProgressId
+        INNER JOIN programs p ON p.programId = tp.programId
+        WHERE ep.exerciseProgressId = :exerciseProgressId
+        LIMIT 1
+        """
+    )
+    suspend fun getProgramNumberOfWeeksForExerciseProgress(exerciseProgressId: Long): Int?
+
+    @Query(
+        """
+        UPDATE exercise_progress
+        SET weightText = :weightText, updatedAtEpochMs = :updatedAtEpochMs
+        WHERE exerciseId = :exerciseId
+          AND weekNumber > :afterWeekNumber
+          AND weekNumber < :beforeWeekNumber
+          AND completedSets = 0
+          AND skippedSets = 0
+          AND NOT EXISTS (
+              SELECT 1
+              FROM exercise_progress startedFutureWeek
+              WHERE startedFutureWeek.exerciseId = :exerciseId
+                AND startedFutureWeek.weekNumber > :afterWeekNumber
+                AND startedFutureWeek.weekNumber <= exercise_progress.weekNumber
+                AND (
+                    startedFutureWeek.completedSets > 0
+                    OR startedFutureWeek.skippedSets > 0
+                )
+          )
+        """
+    )
+    suspend fun updateUntouchedFutureExerciseWeights(
+        exerciseId: Long,
+        afterWeekNumber: Int,
+        beforeWeekNumber: Int,
+        weightText: String?,
+        updatedAtEpochMs: Long
+    )
+
+    @Query(
+        """
+        UPDATE exercise_progress
+        SET weightText = :weightText, updatedAtEpochMs = :updatedAtEpochMs
+        WHERE exerciseId = :exerciseId
+          AND weekNumber = :weekNumber
+          AND completedSets = 0
+          AND skippedSets = 0
+        """
+    )
+    suspend fun updateUntouchedExerciseWeightAtWeek(
+        exerciseId: Long,
+        weekNumber: Int,
+        weightText: String?,
+        updatedAtEpochMs: Long
+    )
+
+    @Query(
+        """
         UPDATE exercise_progress
         SET plannedSets = :plannedSets, updatedAtEpochMs = :updatedAtEpochMs
         WHERE exerciseProgressId = :exerciseProgressId
